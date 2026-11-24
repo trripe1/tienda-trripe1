@@ -1,0 +1,29 @@
+name: Compilar tienda
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Instalar Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Compilar
+        run: javac -d out src/*.java
+
+      - name: Ejecutar
+        run: java -cp out Main
+
+      - name: Comprobar el total
+        run: java -cp out Main | grep "55[.,]00"
